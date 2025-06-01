@@ -15,7 +15,7 @@ buffer_logic.lua : this script is responsible for sending the buffer to the pyth
 llm_logic.py : this script interacts with the LLM and gets called by init.lua 
 temp: this directory stores the temporary buffer to avoid complex inter-process communication
 
-# requires: neovim >= 0.70
+# requires: neovim >= 0.70, Ollama
 
 # Install
 Just copy the nvim folder into .config/ 
