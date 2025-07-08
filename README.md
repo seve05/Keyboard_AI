@@ -1,6 +1,5 @@
 # Keyboard_AI
-It's Keyboard AI. LUA / Python implementation of LOCAL AGENTIC code ASSISTANT LIKE YOU WOULDN'T BELIEVE ALL IN NEOVIM
-
+LUA / Python implementation of LLM integration for coding (this is an optimization problem if you try to do this locally on small models)
 # Commands
 
 :LLM - this invokes an instance of LLM in Ollama
