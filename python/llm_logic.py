@@ -22,7 +22,8 @@ def parse_to_json(text_response):
             return json.loads(text_response) #returns dictionary with keys as value paris
         except:
             print("Failed to decode JSON",text_response)
-            
+
+# this function parses the user-prompt and the code file from temp to the llm for processing
 def llm_processing(prompt):#prompt is actually concatenation of 'prompt' and codefile 
     url = "http://localhost:11434/api/generate" 
     payload = {
@@ -36,7 +37,8 @@ def llm_processing(prompt):#prompt is actually concatenation of 'prompt' and cod
     text_response = data.get("response") 
     #print(text_response)#debug
     return text_response  #returns response from LLM 
- 
+
+#this function iterates through the llm response and performs the actions del, insert 
 def iterating_objects(text_response): 
     home_dir = os.path.expanduser("~")
     filepath = home_dir + "/.config/nvim/temp/tempfile"
@@ -47,7 +49,7 @@ def iterating_objects(text_response):
         json_response = parse_to_json(text_response) #turn to json(if valid)
         #print(json_response)#debug
 
-#need to add length of the code too that gets inserted between lines
+     #need to add length of the code too that gets inserted between lines
         edits = []
         for i in range(len(json_response)):#iterates through n json {} objects/actions llm takes
             try: #in case we are not getting insert_code key from LLM
@@ -70,12 +72,13 @@ def iterating_objects(text_response):
         print(edits)
         return file_content, edits #now returns tuple     
 
-def insert_code(tempfile, start_line, insert_code): #wir sollten nicht jedes mal file oeffnen sondern nur 1x am anfang
+# this function inserts code(changes) into the buffer thats in our tempfile, at specified line
+def insert_code(tempfile, start_line, insert_code): #wir sollten nicht jedes mal file oeffnen sondern nur 1x am anfang, vorher in var speichern einfach
     try: 
         code = insert_code
         start = start_line     #ende spielt bei insertion keine rolle
         for i in range(len(code)): #code ist array of strings
-            index = start+i #wenn i 0 indexiert ist
+            index = start+i  # wenn i 0-indexiert ist
             if index < len(tempfile):
                 tempfile[index] = code[i]
             else:
@@ -84,6 +87,7 @@ def insert_code(tempfile, start_line, insert_code): #wir sollten nicht jedes mal
     except:
         return#just exit the stack no need to return an error this is intentional: case no insertion 
 
+# this is the delete function the llm calls in its response, deletes in ranges start to finish
 def delete_code(tempfile, start_delete, end_delete):
     try:
         start = start_delete
@@ -117,7 +121,7 @@ def main():
     #we join the prompt and file now
     final_prompt = "prompt: " + userprompt + "  File: " + tempfile #this concatenates the prompt and the file 
                                                               #for the llm tor process together
-    llm_response = iterating_objects(llm_processing(final_prompt)) 
+    llm_response = iterating_objects(llm_processing(final_prompt)) # return type is tuple with contents[0] and lines of edits[1]
     
     new_tempfile = llm_response[0]
     write_to_file(filepath_temp, new_tempfile) #hier schreiben wir in tempfile die aenderung 
