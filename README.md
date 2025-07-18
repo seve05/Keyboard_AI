@@ -17,9 +17,8 @@ temp: this directory stores the temporary buffer to avoid complex inter-process 
 # requires: neovim >= 0.70, Ollama
 
 # Install
-create a "nvim" directory in .config/ and insert the folders: "lua", "python", "temp". Also insert "init.lua" to use the custom commands.
-
-This will require the custom model-file "devstralcustom" to create a custom model with parameters and a custom system prompt in ollama.
-To do this go to home/.ollama , copy "devstralcustom" into this directory. 
+create a "nvim" directory in .config/ and insert the folders: "lua", "python", "temp". Also insert "init.lua" to use the custom commands.<br/>
+This will require the custom model-file "devstralcustom" to create a custom model with parameters and a custom system prompt in ollama.<br/>
+To do this go to home/.ollama , copy "devstralcustom" into this directory. <br/>
 Now run "ollama create yourcustomname -f devstralcustom"
 
